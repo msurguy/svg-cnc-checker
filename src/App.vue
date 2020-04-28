@@ -132,6 +132,7 @@
                 formData,
                 {
                 headers: {
+                  'Access-Control-Allow-Origin': '*',
                     'Content-Type': 'multipart/form-data; charset=utf-8;'
                 }
               }
