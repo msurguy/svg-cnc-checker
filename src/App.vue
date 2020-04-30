@@ -28,95 +28,14 @@
                 class="btn btn-primary btn-sm"
                 @click="submitFile">
                 Upload
+                <transition name="fade">
+                  <span
+                    v-if="source.loading"
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"></span>
+                </transition>
               </button>
-
-              <div
-                v-if="source.loading"
-                class="progress">
-                <div
-                  class="progress-bar"
-                  role="progressbar"
-                  aria-valuenow="100"
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                  style="width: 100%">
-                  Uploading SVG
-                </div>
-              </div>
-            </div>
-
-            <div class="sidebar-control">
-              <div class="zoom-controls">
-                <span class="small">zoom: <kbd>alt</kbd> + <kbd>mousewheel</kbd></span>
-                <div class="buttons">
-                  <button
-                    class="btn btn-sm"
-                    @click="zoomIn">
-                    <svg
-                      id="i-zoom-in"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 32 32"
-                      width="16"
-                      height="16"
-                      fill="none"
-                      stroke="currentcolor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2">
-                      <circle
-                        cx="14"
-                        cy="14"
-                        r="12" />
-                      <path d="M23 23 L30 30" />
-                      <path d="M14 10 L14 18 M10 14 L18 14" />
-                    </svg>
-                  </button>
-                  <button
-                    class="btn btn-sm"
-                    @click="zoomOut">
-                    <svg
-                      id="i-zoom-out"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 32 32"
-                      width="16"
-                      height="16"
-                      fill="none"
-                      stroke="currentcolor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2">
-                      <circle
-                        cx="14"
-                        cy="14"
-                        r="12" />
-                      <path d="M23 23 L30 30" />
-                      <path d="M10 14 L18 14" />
-                    </svg>
-                  </button>
-                  <button
-                    class="btn btn-sm pr-0"
-                    @click="resetZoom">
-                    <svg
-                      id="i-zoom-reset"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 32 32"
-                      width="16"
-                      height="16"
-                      fill="none"
-                      stroke="currentcolor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2">
-                      <circle
-                        cx="14"
-                        cy="14"
-                        r="12" />
-                      <path d="M23 23 L30 30" />
-                      <path d="M9 12 L9 9 12 9 M16 9 L19 9 19 12 M9 16 L9 19 12 19 M19 16 L19 19 16 19" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
             </div>
 
             <transition name="slide">
@@ -124,6 +43,80 @@
                 <text-input
                   v-model="strokeWidth"
                   label="Stroke Width"></text-input>
+
+                <div class="sidebar-control">
+                  <div class="zoom-controls">
+                    <span class="small">zoom: <kbd>alt</kbd> + <kbd>mousewheel</kbd></span>
+                    <div class="buttons">
+                      <button
+                        class="btn btn-sm"
+                        @click="zoomIn">
+                        <svg
+                          id="i-zoom-in"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 32 32"
+                          width="16"
+                          height="16"
+                          fill="none"
+                          stroke="currentcolor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2">
+                          <circle
+                            cx="14"
+                            cy="14"
+                            r="12" />
+                          <path d="M23 23 L30 30" />
+                          <path d="M14 10 L14 18 M10 14 L18 14" />
+                        </svg>
+                      </button>
+                      <button
+                        class="btn btn-sm"
+                        @click="zoomOut">
+                        <svg
+                          id="i-zoom-out"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 32 32"
+                          width="16"
+                          height="16"
+                          fill="none"
+                          stroke="currentcolor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2">
+                          <circle
+                            cx="14"
+                            cy="14"
+                            r="12" />
+                          <path d="M23 23 L30 30" />
+                          <path d="M10 14 L18 14" />
+                        </svg>
+                      </button>
+                      <button
+                        class="btn btn-sm pr-0"
+                        @click="resetZoom">
+                        <svg
+                          id="i-zoom-reset"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 32 32"
+                          width="16"
+                          height="16"
+                          fill="none"
+                          stroke="currentcolor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2">
+                          <circle
+                            cx="14"
+                            cy="14"
+                            r="12" />
+                          <path d="M23 23 L30 30" />
+                          <path d="M9 12 L9 9 12 9 M16 9 L19 9 19 12 M9 16 L9 19 12 19 M19 16 L19 19 16 19" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </transition>
           </div>
@@ -227,7 +220,6 @@ export default {
                 Add the form data we need to submit
             */
 
-      // TODO: optimize SVG by cutting out precision before sending
       formData.append('file', this.file)
       /*
               Additional POST Data
@@ -292,7 +284,7 @@ export default {
         this.file = new Blob([e.target.result.replace(/([+]?\d+\.\d{3,}([eE][+]?\d+)?)/g, (x) => (+x).toFixed(2))], { type: 'image/svg+xml;charset=utf-8' })
       }
       reader.readAsText(files[0])
-    },
+    }
     // onSourceFileChange (e) {
     //   this.source.loading = true;
     //   // reset position / scale / other params of the text
@@ -316,9 +308,9 @@ export default {
     // async processInputSVG (fileContents) {
     //   console.log(fileContents)
     // },
-    download () {
-      // downloadSVG(this.$refs.svgWrapper.childNodes[1], flattenedGroup, `line-text-${Date.now()}`)
-    }
+    // download () {
+    //   // downloadSVG(this.$refs.svgWrapper.childNodes[1], flattenedGroup, `line-text-${Date.now()}`)
+    // }
   }
 }
 </script>
@@ -456,5 +448,20 @@ export default {
     max-height: 0;
     opacity: 0;
     overflow: hidden;
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: all 300ms;
+  }
+
+  .fade-enter-to,
+  .fade-leave {
+    opacity: 1;
+  }
+
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
   }
 </style>
